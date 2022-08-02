@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Check for Java11 installation first, but default is Java8
+if [ -d "/usr/local/openjdk-11/" ]; then
+	exec /usr/local/openjdk-11/bin/java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/app-`date +%s`-pid$$.hprof -XX:OnOutOfMemoryError=/opt/bin/dumpToS3.sh "$@"
+else
+	exec /usr/local/openjdk-8/bin/java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/app-`date +%s`-pid$$.hprof -XX:OnOutOfMemoryError=/opt/bin/dumpToS3.sh "$@"
+fi

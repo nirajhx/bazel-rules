@@ -1,0 +1,22 @@
+--- plugin.yaml	2020-07-05 16:39:34.000000000 +0200
++++ plugin.yaml	2020-07-05 16:12:19.000000000 +0200
+@@ -3,11 +3,11 @@
+ usage: "Please see https://github.com/chartmuseum/helm-push for usage"
+ description: "Push chart package to ChartMuseum"
+ command: "$HELM_PLUGIN_DIR/bin/helmpush"
+-downloaders:
+-- command: "bin/helmpush"
+-  protocols:
+-  - "cm"
+-useTunnel: false
+-hooks:
+-  install: "cd $HELM_PLUGIN_DIR; scripts/install_plugin.sh"
+-  update: "cd $HELM_PLUGIN_DIR; scripts/install_plugin.sh"
++#downloaders:
++#- command: "bin/helmpush"
++#  protocols:
++#  - "cm"
++#useTunnel: false
++#hooks:
++#  install: "cd $HELM_PLUGIN_DIR; scripts/install_plugin.sh"
++#  update: "cd $HELM_PLUGIN_DIR; scripts/install_plugin.sh"

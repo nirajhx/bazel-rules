@@ -1,0 +1,32 @@
+#Development environment flags
+build --experimental_strict_java_deps=off
+# Explicit set Java11/JDK11 for Bazel JDK
+# see issue https://github.com/bazelbuild/bazel/issues/7849
+build --java_language_version=11
+build --tool_java_language_version=11
+build --java_runtime_version=remotejdk_11
+build --tool_java_runtime_version=remotejdk_11
+build --action_env=SYSTEM_VERSION_COMPAT=1
+
+# Disable Java header compilation
+# see https://github.com/bazelbuild/bazel/issues/12837
+build --nojava_header_compilation
+
+#Better test output
+test --test_summary=detailed
+test --test_output=all
+
+# Cluster settings
+# Increase remote timeout for bazel-remote and initial fetch of rules from S3
+build:mycluster --remote_timeout=90s
+build:mycluster --remote_cache=grpc://bazel-remote-cache.bazel.svc.cluster.local:9092
+build:mycluster-ubuntu16-04 --config=mycluster
+# Exclude GoStdlib from remote cache due to thousands of files which results in slow initial remote cache / S3 downloads
+# see issue https://github.com/bazelbuild/rules_go/issues/2188
+build:mycluster --modify_execution_info=GoStdlib.*=+no-remote-cache
+# Increase maximal remote connections
+build:mycluster --remote_max_connections=200
+# Extra toolchains for Python with python3.10
+build:mycluster --extra_toolchains=//:py3-toolchain
+
+build --workspace_status_command=./ci/versionStatus.sh
